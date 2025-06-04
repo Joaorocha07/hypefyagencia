@@ -19,6 +19,8 @@ export default function DashboardPage() {
   const [timeFilter, setTimeFilter] = useState('month')
   const userName = 'João Silva'
 
+  console.log('aqui')
+
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
