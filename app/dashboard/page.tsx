@@ -17,7 +17,7 @@ const data = [
 
 export default function DashboardPage() {
   const [timeFilter, setTimeFilter] = useState('month')
-  const userName = 'João Silva' // This would come from your auth context/state
+  const userName = 'João Silva'
 
   return (
     <div className="space-y-6">
