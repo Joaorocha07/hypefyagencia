@@ -18,7 +18,8 @@ import {
   MenuIcon,
   Sun,
   Moon,
-  MessageCircle
+  MessageCircle,
+  User
 } from 'lucide-react'
 import Link from 'next/link'
 
@@ -57,6 +58,11 @@ const menuItems = [
     title: 'Serviços',
     icon: Settings,
     href: '/dashboard/services'
+  },
+  {
+    title: 'Meu Perfil',
+    icon: User,
+    href: '/dashboard/profile'
   },
   {
     title: 'Sair',
