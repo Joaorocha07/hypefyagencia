@@ -57,6 +57,14 @@ export default function LoginForm() {
     if (response === null) {
       setErrorMessage('Ocorreu um erro ao logar sua conta. Tente novamente.')
     } else if (!response.error) {
+      const userData = {
+        isAuthenticated: true,
+        jwt: response.jwt,
+        email: response.email,
+        nome: response.nome
+      }
+
+      localStorage.setItem('authData', JSON.stringify(userData))
       localStorage.setItem('isAuthenticated', 'true')
       router.push('/dashboard')
     } else {

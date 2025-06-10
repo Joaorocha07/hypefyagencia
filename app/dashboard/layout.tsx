@@ -76,18 +76,22 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  const pathname = usePathname()
-  const [isLoading, setIsLoading] = useState(true)
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
   const router = useRouter()
+  const pathname = usePathname()
+  const { theme, setTheme } = useTheme()
+
+  const [isLoading, setIsLoading] = useState(true)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+
 
   useEffect(() => {
     const user = localStorage.getItem('isAuthenticated')
 
+    console.log(user)
+
     if (user) {
-      setIsAuthenticated(true)
+      console.log('User is authenticated')
     } else {
       router.push('/login')
     }

@@ -1,11 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { User } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 
 const data = [
   { name: 'Jan', pedidos: 4, gastos: 400 },
@@ -17,11 +16,8 @@ const data = [
 ]
 
 export default function DashboardPage() {
-  const [isLoading, setIsLoading] = useState(true)
   const [timeFilter, setTimeFilter] = useState('month')
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const userName = 'João Silva'
-  const router = useRouter()
 
   return (
     <div className="space-y-6">

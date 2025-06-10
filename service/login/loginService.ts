@@ -7,6 +7,9 @@ export interface ILoginResponse {
   error: string
   msgUser: string
   msgOriginal: string
+  jwt: string
+  email: string
+  nome: string
 }
 
 export default async function loginService({

@@ -26,11 +26,14 @@ export default function ProfilePage() {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  const storedAuth = localStorage.getItem('authData')
+  const parsedAuth = storedAuth ? JSON.parse(storedAuth) : {}
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: 'João Silva',
-      email: 'joao.silva@email.com',
+      name: parsedAuth.nome || '',
+      email: parsedAuth.email || '',
     },
   })
 
@@ -67,8 +70,8 @@ export default function ProfilePage() {
               </Button>
             </div>
             <div className="text-center">
-              <h3 className="text-lg font-semibold">João Silva</h3>
-              <p className="text-sm text-muted-foreground">joao.silva@email.com</p>
+              <h3 className="text-lg font-semibold">{parsedAuth.nome || ''}</h3>
+              <p className="text-sm text-muted-foreground">{parsedAuth.email || ''}</p>
             </div>
             <Button variant="outline" className="w-full">
               Alterar Foto
@@ -93,6 +96,7 @@ export default function ProfilePage() {
                           <div className="relative">
                             <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
+                              disabled={true}
                               placeholder="Seu nome completo"
                               className="pl-10"
                               {...field}
@@ -114,6 +118,7 @@ export default function ProfilePage() {
                           <div className="relative">
                             <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
+                              disabled={true}
                               placeholder="seu@email.com"
                               className="pl-10"
                               {...field}
