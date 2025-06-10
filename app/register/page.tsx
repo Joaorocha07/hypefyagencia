@@ -14,6 +14,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 import Link from 'next/link'
 import SocialLoginButton from '@/components/auth/social-login-button'
+import registerService from '@/service/register/registerService'
 
 const registerFormSchema = z.object({
   name: z.string().min(2, { message: 'O nome deve ter pelo menos 2 caracteres' }),
@@ -57,21 +58,21 @@ export default function RegisterPage() {
 
     console.log(values)
 
-    // const response = await registerService({
-    //   nome: values.name,
-    //   email: values.email,
-    //   password: values.password
-    // })
+    const response = await registerService({
+      nome: values.name,
+      email: values.email,
+      password: values.password
+    })
 
-    // console.log(response)
+    console.log(response)
 
-    // if (response === null) {
-    //   setErrorMessage('Ocorreu um erro ao registrar sua conta. Tente novamente.')
-    // } else if (!response.error) {
-    //   router.push('/login')
-    // } else {
-    //   setErrorMessage(response?.msgUser)
-    // }
+    if (response === null) {
+      setErrorMessage('Ocorreu um erro ao registrar sua conta. Tente novamente.')
+    } else if (!response.error) {
+      router.push('/login')
+    } else {
+      setErrorMessage(response?.msgUser)
+    }
     
     await new Promise((resolve) => setTimeout(resolve, 1500))
     

@@ -14,6 +14,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 import Link from 'next/link'
 import SocialLoginButton from './social-login-button'
+import loginService from '@/service/login/loginService'
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: 'Por favor, insira um endereço de e-mail válido' }),
@@ -46,21 +47,21 @@ export default function LoginForm() {
 
     console.log(values)
     
-    // const response = await loginService({
-    //   email: values.email,
-    //   password: values.password
-    // })
+    const response = await loginService({
+      email: values.email,
+      password: values.password
+    })
 
-    // console.log(response)
+    console.log(response)
 
-    // if (response === null) {
-    //   setErrorMessage('Ocorreu um erro ao logar sua conta. Tente novamente.')
-    // } else if (!response.error) {
-    //   localStorage.setItem('isAuthenticated', 'true')
-    //   router.push('/dashboard')
-    // } else {
-    //   setErrorMessage(response?.msgUser)
-    // }
+    if (response === null) {
+      setErrorMessage('Ocorreu um erro ao logar sua conta. Tente novamente.')
+    } else if (!response.error) {
+      localStorage.setItem('isAuthenticated', 'true')
+      router.push('/dashboard')
+    } else {
+      setErrorMessage(response?.msgUser)
+    }
 
     await new Promise((resolve) => setTimeout(resolve, 1500))
     

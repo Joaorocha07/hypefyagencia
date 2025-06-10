@@ -7,8 +7,13 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Hype Fy - Painel',
+  title: 'Hype Fy Agência',
   description: 'Painel de controle Hype Fy',
+  icons: {
+    icon: '/images/logo.ico',
+    shortcut: '/images/logo.ico',
+    apple: '/images/logo.ico',
+  },
 }
 
 export default function RootLayout({
