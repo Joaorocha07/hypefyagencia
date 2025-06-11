@@ -104,7 +104,6 @@ export default function ConfirmationDialog({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={onClose}
         >
           <motion.div
             className={`relative w-full max-w-md p-6 rounded-xl border shadow-2xl ${styles.bg} ${styles.border}`}

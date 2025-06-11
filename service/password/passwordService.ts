@@ -1,6 +1,6 @@
 'use server'
 interface IPasswordResetArgs {
-  email: string
+  email?: string
   code?: string
   new_password?: string
   jwt: string

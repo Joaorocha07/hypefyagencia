@@ -11,10 +11,11 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { useRouter } from 'next/navigation'
 import PasswordChangeModal from '@/components/profile/password-change-modal'
 import AnimatedAlert from '@/components/ui/animated-alert'
 import ConfirmationDialog from '@/components/ui/confirmation-dialog'
+import deleteService from '@/service/deletar/deleteService'
+import { useRouter } from 'next/navigation'
 
 const profileSchema = z.object({
   name: z.string().min(2, { message: 'Nome deve ter pelo menos 2 caracteres' }),
@@ -80,15 +81,23 @@ export default function ProfilePage() {
     
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    
-    showAlert('success', 'Conta Deletada', 'Sua conta foi deletada com sucesso. Você será redirecionado em breve.')
-    
-    // Redirect after showing success message
-    setTimeout(() => {
-      localStorage.removeItem('authData')
-      localStorage.removeItem('isAuthenticated')
-      router.push('/')
-    }, 2000)
+
+    const response = await deleteService({
+      jwt: parsedAuth.jwt
+    })
+
+    if (response === null) {
+      showAlert('error', 'Erro no Servidor', 'Ocorreu um erro ao deletar a conta. Tente novamente.')
+    } else if (!response.error) {
+      showAlert('success', 'Conta Deletada', 'Sua conta foi deletada com sucesso.')
+      setTimeout(() => {
+        localStorage.removeItem('authData')
+        localStorage.removeItem('isAuthenticated')
+        router.push('/login')
+      }, 4000)
+    } else {
+      showAlert('error', 'Erro ao Enviar', response?.msgUser || 'Erro desconhecido')
+    }
   }
 
   const handlePhotoChange = () => {
