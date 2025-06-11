@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import ConfettiAnimation from './confetti-animation'
+import passwordService from '@/service/password/passwordService'
 
 const emailSchema = z.object({
   email: z.string().email({ message: 'Email inválido' }),
@@ -45,6 +46,9 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
   
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
+  const storedAuth = localStorage.getItem('authData')
+  const parsedAuth = storedAuth ? JSON.parse(storedAuth) : {}
+
   const emailForm = useForm<EmailFormValues>({
     resolver: zodResolver(emailSchema),
     defaultValues: {
@@ -72,9 +76,17 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
   const handleEmailSubmit = async (values: EmailFormValues) => {
     setIsLoading(true)
     setEmail(values.email)
-    
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+
+    const response = await passwordService({
+      email: values.email,
+      jwt: parsedAuth.jwt
+    })
+
+    if (response === null) {
+      alert('Ocorreu um erro ao registrar sua conta. Tente novamente.')
+    } else if (!response.error) {
+      alert(`Codigo enviado com sucesso para o email: ${response?.msgUser}`)
+    }
     
     setIsLoading(false)
     setCurrentStep('verification')
@@ -88,7 +100,6 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
 
     setVerificationCode(newCode)
 
-    // Move to next input if value is entered
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus()
     }
@@ -102,22 +113,42 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
 
   const handleVerificationSubmit = async () => {
     const code = verificationCode.join('')
-    
-    // Fixed code for testing: 123456
-    if (code === '123456') {
-      setIsLoading(true)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    setIsLoading(true)
+
+    const response = await passwordService({
+      email,
+      code,
+      jwt: parsedAuth.jwt
+    })
+
+    if (response === null) {
+      alert('Ocorreu um erro ao registrar sua conta. Tente novamente.')
+    } else if (!response.error) {
       setIsLoading(false)
       setCurrentStep('password')
+      
     } else {
-      alert('Código inválido. Use: 123456')
+      setIsLoading(false)
+      alert('Código inválido!')
     }
   }
 
   const handlePasswordSubmit = async (values: PasswordFormValues) => {
     setIsLoading(true)
+
+    const response = await passwordService({
+      email,
+      new_password: values.password,
+      jwt: parsedAuth.jwt
+    })
+
+    if (response === null) {
+      alert('Ocorreu um erro ao mudar a senha. Tente novamente.')
+    } else if (!response.error) {
+      setCurrentStep('success')
+    }
     
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500))
     
     setIsLoading(false)

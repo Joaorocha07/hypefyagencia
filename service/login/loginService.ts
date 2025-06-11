@@ -27,8 +27,6 @@ export default async function loginService({
 
     const apiUrl = `${process.env.API_LOGIN}/login`
 
-    console.log(apiUrl)
-
     const myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
 
@@ -42,9 +40,6 @@ export default async function loginService({
 
     const response = await fetch(apiUrl, requestOptions)
     const result: ILoginResponse = await response.json()
-
-    console.log(response)
-    console.log(result)
 
     return result
   } catch (e) {

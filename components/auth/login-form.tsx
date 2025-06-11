@@ -45,14 +45,10 @@ export default function LoginForm() {
     setIsLoading(true)
     setErrorMessage(null)
 
-    console.log(values)
-    
     const response = await loginService({
       email: values.email,
       password: values.password
     })
-
-    console.log(response)
 
     if (response === null) {
       setErrorMessage('Ocorreu um erro ao logar sua conta. Tente novamente.')

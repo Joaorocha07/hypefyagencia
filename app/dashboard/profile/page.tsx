@@ -14,6 +14,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import PasswordChangeModal from '@/components/profile/password-change-modal'
+import passwordService from '@/service/password/passwordService'
 
 const profileSchema = z.object({
   name: z.string().min(2, { message: 'Nome deve ter pelo menos 2 caracteres' }),
@@ -33,15 +34,15 @@ export default function ProfilePage() {
     resolver: zodResolver(profileSchema),
     defaultValues: {
       name: parsedAuth.nome || '',
-      email: parsedAuth.email || '',
+      email: parsedAuth.email || ''
     },
   })
 
   async function onSubmit(values: ProfileFormValues) {
     setIsLoading(true)
-    console.log('Profile updated:', values)
-    
-    // Simulate API call
+
+    console.log(values)
+
     await new Promise((resolve) => setTimeout(resolve, 1500))
     
     setIsLoading(false)

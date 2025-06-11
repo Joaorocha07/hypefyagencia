@@ -56,15 +56,11 @@ export default function RegisterPage() {
   async function onSubmit(values: RegisterFormValues) {
     setIsLoading(true)
 
-    console.log(values)
-
     const response = await registerService({
       nome: values.name,
       email: values.email,
       password: values.password
     })
-
-    console.log(response)
 
     if (response === null) {
       setErrorMessage('Ocorreu um erro ao registrar sua conta. Tente novamente.')

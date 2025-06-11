@@ -32,12 +32,8 @@ export default function ForgotPasswordPage() {
 
   async function onSubmit(values: ForgotPasswordValues) {
     setIsLoading(true)
-    // Simulate API call
     console.log(values)
-    
-    // Artificial delay to simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500))
-    
     setIsLoading(false)
     setIsSubmitted(true)
   }

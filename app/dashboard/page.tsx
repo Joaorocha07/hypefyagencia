@@ -17,7 +17,9 @@ const data = [
 
 export default function DashboardPage() {
   const [timeFilter, setTimeFilter] = useState('month')
-  const userName = 'João Silva'
+  const storedAuth = localStorage.getItem('authData')
+  const parsedAuth = storedAuth ? JSON.parse(storedAuth) : {}
+  const userName = parsedAuth.nome
 
   return (
     <div className="space-y-6">
