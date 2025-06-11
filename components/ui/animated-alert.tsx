@@ -129,17 +129,6 @@ export default function AnimatedAlert({
             exit="exit"
             onClick={(e) => e.stopPropagation()}
           >
-            {showCloseButton && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-2 right-2 h-8 w-8 rounded-full"
-                onClick={onClose}
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-
             <div className="flex items-start space-x-4">
               <motion.div
                 variants={iconVariants}

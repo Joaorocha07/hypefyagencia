@@ -85,6 +85,8 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
     })
   }
 
+  console.log(showAlert)
+
   const closeAlert = () => {
     setAlert(prev => ({ ...prev, isOpen: false }))
   }
@@ -109,15 +111,18 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
     })
 
     if (response === null) {
-      showAlert('error', 'Erro no Servidor', 'Ocorreu um erro ao enviar o código. Tente novamente.')
+      // showAlert('error', 'Erro no Servidor', 'Ocorreu um erro ao enviar o código. Tente novamente.')
+      console.log('Erro no servidor ao enviar código')
     } else if (!response.error) {
-      showAlert('success', 'Código Enviado', `Código enviado com sucesso para o email: ${response?.msgUser}`)
+      // showAlert('success', 'Código Enviado', `Código enviado com sucesso para o email: ${response?.msgUser}`)
+      console.log(`Código enviado com sucesso para o email: ${response?.msgUser}`)
       setTimeout(() => {
         closeAlert()
         setCurrentStep('verification')
       }, 2000)
     } else {
-      showAlert('error', 'Erro ao Enviar', response?.msgUser || 'Erro desconhecido')
+      // showAlert('error', 'Erro ao Enviar', response?.msgUser || 'Erro desconhecido')
+      console.log(response?.msgUser || 'Erro desconhecido')
     }
     
     setIsLoading(false)
@@ -154,15 +159,16 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
     })
 
     if (response === null) {
-      showAlert('error', 'Erro no Servidor', 'Ocorreu um erro ao verificar o código. Tente novamente.')
+      console.log('Erro no servidor ao verificar código')
     } else if (!response.error) {
-      showAlert('success', 'Código Verificado', 'Código verificado com sucesso!')
+      console.log('Código verificado com sucesso!')
       setTimeout(() => {
         closeAlert()
         setCurrentStep('password')
       }, 1500)
     } else {
-      showAlert('error', 'Código Inválido', 'O código inserido é inválido. Verifique e tente novamente.')
+      // showAlert('error', 'Código Inválido', 'O código inserido é inválido. Verifique e tente novamente.')
+      console.log(response?.msgUser || 'Erro desconhecido')
     }
 
     setIsLoading(false)
@@ -178,11 +184,13 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
     })
 
     if (response === null) {
-      showAlert('error', 'Erro no Servidor', 'Ocorreu um erro ao alterar a senha. Tente novamente.')
+      // showAlert('error', 'Erro no Servidor', 'Ocorreu um erro ao alterar a senha. Tente novamente.')
+      console.log('Erro no servidor ao alterar senha')
     } else if (!response.error) {
       setCurrentStep('success')
     } else {
-      showAlert('error', 'Erro ao Alterar Senha', response?.msgUser || 'Erro desconhecido')
+      // showAlert('error', 'Erro ao Alterar Senha', response?.msgUser || 'Erro desconhecido')
+      console.log(response?.msgUser || 'Erro desconhecido')
     }
     
     setIsLoading(false)
@@ -204,8 +212,8 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
 
   return (
     <>
-      <Dialog open={isOpen} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-md">
+      <Dialog open={isOpen}>
+        <DialogContent className="sm:max-w-md" handleClose={handleClose}>
           <AnimatePresence mode="wait">
             {currentStep === 'email' && (
               <motion.div
@@ -279,7 +287,7 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
                     <DialogTitle>Verificação de Email</DialogTitle>
                   </div>
                   <p className="text-center text-sm text-muted-foreground">
-                    Digite o código de 6 dígitos enviado para {email}
+                    Digite o código de 6 dígitos enviado para <strong className='text-[#f59e0b]'>{email}</strong> 
                   </p>
                 </DialogHeader>
                 
@@ -301,9 +309,6 @@ export default function PasswordChangeModal({ isOpen, onClose }: PasswordChangeM
                   </div>
                   
                   <div className="text-center">
-                    <p className="text-sm text-muted-foreground mb-2">
-                      Código de teste: <span className="font-mono font-bold">123456</span>
-                    </p>
                     <Button
                       variant="link"
                       className="text-sm"
